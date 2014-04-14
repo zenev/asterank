@@ -51,12 +51,14 @@
     , added_objects = []
     , planets = []
     , planet_orbits_visible = true
+	, all_asteroid_orbits_visible = false
     , jed = toJED(new Date())
     , particle_system_geometry = null
     , asteroids_loaded = false
     , display_date_last_updated = 0
     , first_loaded = false
     , skyBox = null
+	' allDisplayAsteroids = [] //TODO: Change this variable to have the asteroids that orbits should be displayed for
 
   // Lock/feature stuff
   var feature_map = {}       // map from object full name to Orbit3D instance
@@ -183,6 +185,21 @@
 
   function toggleMilkyWay() {
     skyBox.visible = opts.milky_way_visible = !opts.milky_way_visible;
+  }
+  
+  //this assumes there the asteroids to display are in allDisplayAsteroids
+  function toggleAsteroidOrbits(){
+	if (all_asteroid_orbits_visible) {
+      for (var i=0; i < allDisplayAsteroids.length; i++) {
+        scene.remove(allDisplayAsteroids[i].getEllipse());
+      }
+    }
+    else {
+      for (var i=0; i < allDisplayAsteroids.length; i++) {
+        scene.add(allDisplayAsteroids[i].getEllipse());
+      }
+    }
+    all_asteroid_orbits_visible = !all_asteroid_orbits_visible;
   }
 
   // init the scene
